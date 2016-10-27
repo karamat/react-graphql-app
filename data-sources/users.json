@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "age": {
+      "min": 5,
+      "max": 90
+    },
+    "name": "Test query"
+  },
+  {
+    "name": "Adeel",
+    "id": 2
+  },
+  {
+    "id": 3,
+    "name": "Karamat"
+  }
+]
