@@ -17,13 +17,9 @@ app.use(bodyParser.text({ type: 'application/graphql' }));
 
 app.post('/graphql', (req, res) => {
   // execute GraphQL!
-  let query = req.body;
-  query = query.replace(/(\r\n|\n|\r|\s+)/gm," ");
-  console.log(query);
-
+  console.log(req.body);
   graphql(Schema, req.body)
   .then( result => {
-    console.log(result);
     return res.send(JSON.stringify(result, null, 2))
   })
   .catch(err => res.send(err));

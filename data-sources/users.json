@@ -1,18 +1,35 @@
 [
   {
-    "id": 1,
-    "age": {
-      "min": 5,
-      "max": 90
+    "0": {
+      "name": "woooooo",
+      "age": {
+        "min": 2,
+        "max": 3
+      },
+      "profession": 1,
+      "region": 2,
+      "religion": 2,
+      "id": 23
     },
-    "name": "Test query"
+    "id": 23,
+    "name": "wobbbbb",
+    "age": {
+      "min": 2,
+      "max": 3
+    },
+    "profession": 1,
+    "region": 2,
+    "religion": 3
   },
   {
-    "name": "Adeel",
+    "name": "adsfa",
+    "age": {
+      "min": 1,
+      "max": 3
+    },
+    "profession": 1,
+    "region": 1,
+    "religion": 2,
     "id": 2
-  },
-  {
-    "id": 3,
-    "name": "Karamat"
   }
 ]

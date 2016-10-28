@@ -42,7 +42,7 @@ export const updateUser = (user) => {
   return new Promise((resolve, reject) => {
     fs.readFile(fileName, 'utf-8', (err, data) => {
       let users = JSON.parse(data);
-      let updatedUser = _filter(users, (a) => a.id == user.id);
+      let updatedUser = _.filter(users, (a) => a.id == user.id);
       updatedUser = Object.assign({}, updatedUser, user);
       users = _.reject(users, (a) => a.id == user.id);
       users.push(updatedUser);
@@ -54,14 +54,14 @@ export const updateUser = (user) => {
   });
 }
 
-export const deleteUser = (user) => {
+export const deleteUser = (id) => {
   return new Promise((resolve, reject) => {
     fs.readFile(fileName, 'utf-8',(err, data) => {
       let users = JSON.parse(data);
-      users = _.reject(users, (a) => a.id == user.id);
+      users = _.reject(users, (a) => a.id == id);
       fs.writeFile(fileName, JSON.stringify(users, null, 2), 'utf-8', err => {
         if (err) return reject(err);
-        resolve();
+        resolve(id);
       });
     });
   });

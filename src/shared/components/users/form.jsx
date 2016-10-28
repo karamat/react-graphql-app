@@ -6,7 +6,7 @@ export default class UserForm extends React.Component {
   
   constructor (props) {
     super(props);
-    this.state = { name: '', age: {min: '', max: ''}, professions: '', regions: '', religions: '' };
+    this.state = {};
     this._updateState = this._updateState.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
     this._changeRegion = this._changeRegion.bind(this);
@@ -15,7 +15,8 @@ export default class UserForm extends React.Component {
   }
 
   _updateState(update) {
-    this.setState(Object.assign({},this.state, update));
+    this.props.updateState(update);
+    
   }
 
   _changeName(e) {
@@ -23,28 +24,28 @@ export default class UserForm extends React.Component {
   }
 
   _changeMinAge(e) {
-    this._updateState({age: {min: e.target.value, max: this.state.age.max}});
+    this._updateState({age: {min: e.target.value, max: this.props.user.age.max}});
   }
 
   _changeMaxAge(e) {
-    this._updateState({age: {min: this.state.age.min, max: e.target.value}});
+    this._updateState({age: {min: this.props.user.age.min, max: e.target.value}});
   }
 
   _changeProfession(e) {
-    this._updateState({professions: e.target.value});
+    this._updateState({profession: e.target.value});
   }
 
   _changeRegion(e) {
-    this._updateState({regions: e.target.value});
+    this._updateState({region: e.target.value});
   }
 
   _changeReligion(e) {
-    this._updateState({religions: e.target.value});
+    this._updateState({religion: e.target.value});
   }
 
   _handleSubmit(e) {
     e.preventDefault();
-    this.props.onSubmit(this.state);
+    this.props.onSubmit();
   }
 
   render() {
@@ -52,34 +53,34 @@ export default class UserForm extends React.Component {
       <form onSubmit={this._handleSubmit}>
         <div>
           <label>Name</label>
-          <input autoComplete="off" autoFocus type="text" name="name" onChange={this._changeName.bind(this)} value={this.state.name} />
+          <input autoComplete="off" autoFocus type="text" name="name" onChange={this._changeName.bind(this)} value={this.props.user.name} />
         </div>
         <div>
           <label>Age</label>
-          <input autoComplete="off" type="number" name="age[min]" onChange={this._changeMinAge.bind(this)} value={this.state.age.min} />
-          <input autoComplete="off" type="number" name="age[max]" onChange={this._changeMaxAge.bind(this)} value={this.state.age.max} />
+          <input autoComplete="off" type="number" name="age[min]" onChange={this._changeMinAge.bind(this)} value={this.props.user.age.min} />
+          <input autoComplete="off" type="number" name="age[max]" onChange={this._changeMaxAge.bind(this)} value={this.props.user.age.max} />
         </div>
         <div>
           <label>Profession</label>
-          <select name="profession" onChange={this._changeProfession}>
+          <select name="profession" onChange={this._changeProfession} value={this.props.user.profession}>
             { this.props.professions.map( p =>
-              <option value={p.name}>{p.name}</option>
+              <option key={"profession-"+p.value} value={p.name}>{p.name}</option>
             )}
           </select>
         </div>
         <div>
           <label>Region</label>
-          <select name="region" onChange={this._changeRegion}>
+          <select name="region" onChange={this._changeRegion} value={this.props.user.region}>
             { this.props.regions.map( p =>
-              <option value={p.name}>{p.name}</option>
+              <option key={"region-"+p.value} value={p.name}>{p.name}</option>
             )}
           </select>
         </div>
         <div>
           <label>Religion</label>
-          <select name="religion" onChange={this._changeReligion}>
+          <select name="religion" onChange={this._changeReligion} value={this.props.user.religion}>
             { this.props.religions.map( p =>
-              <option value={p.name}>{p.name}</option>
+              <option key={"religion-"+p.value} value={p.name}>{p.name}</option>
             )}
           </select>
         </div>

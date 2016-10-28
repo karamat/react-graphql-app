@@ -26,98 +26,81 @@ import {
 const RegionEnum = new GraphQLEnumType({
   name: 'RegionEnum',
   values: {
-    New_York: {value: 0, name: "New York" },
-    San_Francisco: {value: 1, name: "San Francisco" },
-    Miami: {value: 2, name: "Miami" }
+    New_York: {value: 1, name: "New York" },
+    San_Francisco: {value: 2, name: "San Francisco" },
+    Miami: {value: 3, name: "Miami" }
   }
 })
 
 const ReligionEnum = new GraphQLEnumType({
   name: 'ReligionEnum',
   values: {
-    christian: {value: 0, name: "Christian" },
-    muslim: {value: 1, name: "Muslim" },
-    hindu: {value: 2, name: "Hindu" },
-    other: {value: 3, name: "Other" }
+    christian: {value: 1, name: "Christian" },
+    muslim: {value: 2, name: "Muslim" },
+    hindu: {value: 3, name: "Hindu" },
+    other: {value: 4, name: "Other" }
   }
 })
 
 const ProfessionEnum = new GraphQLEnumType({
   name: 'ProfessionEnum',
   values: {
-    builder: {value: 0, name: "Builder" },
-    programmer: {value: 1, name: "Programmer" },
-    tester: {value: 2, name: "Tester" }
+    builder: {value: 1, name: "Builder" },
+    programmer: {value: 2, name: "Programmer" },
+    tester: {value: 3, name: "Tester" }
   }
 })
 
-const User = new GraphQLObjectType({
-  name: 'User',
+const AgeType = new GraphQLObjectType({
+  name: 'Age',
   fields: {
-    id: {
-      type: GraphQLID
-    },
-    name: {
-      type: GraphQLString
-    }
+    min: { type: GraphQLInt },
+    max: { type: GraphQLInt }
   }
 });
 
 const Profession = new GraphQLObjectType({
   name: 'Profession',
   fields: {
-    name: {
-      type: GraphQLString
-    },
-    value: {
-      type: GraphQLInt
-    }
+    name: { type: GraphQLString },
+    value: { type: GraphQLInt }
   }
 });
 
 const Region = new GraphQLObjectType({
   name: 'Region',
   fields: {
-    name: {
-      type: GraphQLString
-    },
-    value: {
-      type: GraphQLInt
-    }
+    name: { type: GraphQLString },
+    value: { type: GraphQLInt }
   }
 });
 
 const Religion = new GraphQLObjectType({
   name: 'Religion',
   fields: {
-    name: {
-      type: GraphQLString
-    },
-    value: {
-      type: GraphQLInt
-    }
+    name: { type: GraphQLString },
+    value: { type: GraphQLInt }
   }
 });
 
-const AgeInput = new GraphQLInputObjectType({
-  name: 'AgeInput',
+const User = new GraphQLObjectType({
+  name: 'User',
   fields: {
-    min: {
-      type: GraphQLInt
-    },
-    max: {
-      type: GraphQLInt
-    }
+    id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    age : { type: AgeType },
+    profession: { type: ProfessionEnum },
+    religion: { type: ReligionEnum },
+    region: { type: RegionEnum }
   }
 });
-
 
 const Query = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
     users: {
       type: new GraphQLList(User),
-      resolve(obj) {
+      resolve(root) {
         return getUsers();
       }
     },
@@ -131,7 +114,7 @@ const Query = new GraphQLObjectType({
           type: GraphQLString
         }
       },
-      resolve: (obj) => {
+      resolve: ( root, args ) => {
         return getUser(args);
       }
     },
@@ -181,6 +164,13 @@ const UserInputType = new GraphQLInputObjectType({
   })
 });
 
+const AgeInput = new GraphQLInputObjectType({
+  name: 'AgeInput',
+  fields: {
+    min: { type: GraphQLInt },
+    max: { type: GraphQLInt }
+  }
+});
 
 const MutationType = new GraphQLObjectType({
   name: 'UserMutations',
@@ -204,12 +194,12 @@ const MutationType = new GraphQLObjectType({
       }
     },
     deleteUser: {
-      type: User,
+      type: GraphQLInt,
       args: {
-        user: { type: UserInputType }
+        id: { type: GraphQLInt }
       },
-      resolve: (root, { user }) => {
-        return deleteUser(user);
+      resolve: (root, { id }) => {
+        return deleteUser(id);
       }
     }
   })
